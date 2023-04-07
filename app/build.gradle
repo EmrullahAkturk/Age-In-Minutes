@@ -7,6 +7,9 @@ android {
     namespace 'com.yargisoft.minutecalculator'
     compileSdk 33
 
+    buildFeatures{
+        dataBinding  true
+    }
     defaultConfig {
         applicationId "com.yargisoft.minutecalculator"
         minSdk 24
