@@ -9,6 +9,7 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.yargisoft.minutecalculator.databinding.ActivityMainBinding
+import java.text.SimpleDateFormat
 import java.time.Month
 import java.util.*
 
@@ -28,8 +29,21 @@ class MainActivity : AppCompatActivity() {
         val month =myCalendar.get(Calendar.MONTH)
         val day = myCalendar.get(Calendar.DAY_OF_MONTH)
         DatePickerDialog(this,
-            DatePickerDialog.OnDateSetListener{view,year,month, dayOfMonth ->
-                Toast.makeText(this,"DatePicker",Toast.LENGTH_LONG).show()
+            DatePickerDialog.OnDateSetListener{view,selectedYear,selectedMonth, dayOfMonth ->
+                val selectedDate =  "${dayOfMonth}/${selectedMonth+1}/${selectedYear}"
+                binding.dateText.text= selectedDate
+
+                val sdf = SimpleDateFormat("dd/MM/yyy", Locale.ENGLISH)
+                val theDate = sdf.parse(selectedDate)//Tarih formatlama kütüphanesini kullanarak elimizdeki tarihi formatlıyoruz
+
+                val selectedDateInMinutes = theDate.time / 60000
+
+                val currentDate = sdf.parse(sdf.format(System.currentTimeMillis())) //Uygulamaın kullandığı sistem saatini alır
+                val currentDateInMinutes = currentDate.time / 60000
+                val differenceInMinutes = currentDateInMinutes - selectedDateInMinutes
+                binding.txtInMinutes.text = "${differenceInMinutes}"
+
+
             },
             year,
             month,
